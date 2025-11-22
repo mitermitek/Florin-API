@@ -12,6 +12,7 @@ public class Transaction
     [Required]
     public int AccountId { get; set; }
 
+    [Required]
     public int CategoryId { get; set; }
 
     [Required]
