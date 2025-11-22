@@ -7,7 +7,7 @@ namespace Florin_API.Services;
 
 public class TransactionService(IAccountService accountService, ICategoryService categoryService, ITransactionRepository transactionRepository) : ITransactionService
 {
-    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId)
+    public async Task<ICollection<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId)
     {
         var account = await accountService.GetAccountByIdAndUserIdAsync(accountId, userId);
 

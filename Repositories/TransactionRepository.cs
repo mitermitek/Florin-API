@@ -7,7 +7,7 @@ namespace Florin_API.Repositories;
 
 public class TransactionRepository(FlorinDbContext ctx) : ITransactionRepository
 {
-    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId)
+    public async Task<ICollection<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId)
     {
         return await ctx.Transactions
             .Include(t => t.Account)

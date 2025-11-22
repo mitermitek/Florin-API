@@ -45,8 +45,8 @@ public static class TransactionMapper
         };
     }
 
-    public static IEnumerable<TransactionDTO> ToDTOs(this IEnumerable<Transaction> entities)
+    public static ICollection<TransactionDTO> ToDTOs(this ICollection<Transaction> entities)
     {
-        return entities.Select(e => e.ToDTO());
+        return [.. entities.Select(e => e.ToDTO())];
     }
 }
