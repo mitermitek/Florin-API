@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.DTOs.Category;
 using Florin_API.Entities;
 
@@ -33,5 +34,14 @@ public static class CategoryMapper
     public static ICollection<CategoryDTO> ToDTOs(this ICollection<Category> entities)
     {
         return [.. entities.Select(e => e.ToDTO())];
+    }
+
+    public static Pagination<CategoryDTO> ToDTO(this Pagination<Category> pagination)
+    {
+        return new Pagination<CategoryDTO>
+        {
+            Items = pagination.Items.ToDTOs(),
+            Total = pagination.Total
+        };
     }
 }

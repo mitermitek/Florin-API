@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.Entities;
 using Florin_API.Exceptions.Category;
 using Florin_API.Repositories.Interfaces;
@@ -10,6 +11,11 @@ public class CategoryService(ICategoryRepository categoryRepository) : ICategory
     public async Task<ICollection<Category>> GetCategoriesByUserIdAsync(int userId)
     {
         return await categoryRepository.GetCategoriesByUserIdAsync(userId);
+    }
+
+    public async Task<Pagination<Category>> GetCategoriesByUserIdAsync(int userId, PaginationFilter paginationFilter)
+    {
+        return await categoryRepository.GetCategoriesByUserIdAsync(userId, paginationFilter);
     }
 
     public async Task<Category> GetCategoryByIdAndUserIdAsync(int id, int userId)

@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.DTOs.Transaction;
 using Florin_API.Entities;
 
@@ -48,5 +49,14 @@ public static class TransactionMapper
     public static ICollection<TransactionDTO> ToDTOs(this ICollection<Transaction> entities)
     {
         return [.. entities.Select(e => e.ToDTO())];
+    }
+
+    public static Pagination<TransactionDTO> ToDTO(this Pagination<Transaction> pagination)
+    {
+        return new Pagination<TransactionDTO>
+        {
+            Items = pagination.Items.ToDTOs(),
+            Total = pagination.Total
+        };
     }
 }

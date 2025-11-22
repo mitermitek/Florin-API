@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.Data;
 using Florin_API.Entities;
 using Florin_API.Repositories.Interfaces;
@@ -14,6 +15,26 @@ public class TransactionRepository(FlorinDbContext ctx) : ITransactionRepository
             .Include(t => t.Category)
             .Where(t => t.AccountId == accountId && t.Account.UserId == userId)
             .ToListAsync();
+    }
+
+    public async Task<Pagination<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId, PaginationFilter paginationFilter)
+    {
+        var query = ctx.Transactions
+            .Include(t => t.Account)
+            .Include(t => t.Category)
+            .Where(t => t.AccountId == accountId && t.Account.UserId == userId);
+
+        var total = await query.CountAsync();
+        var items = await query
+            .Skip((paginationFilter.Page - 1) * paginationFilter.Size)
+            .Take(paginationFilter.Size)
+            .ToListAsync();
+
+        return new Pagination<Transaction>
+        {
+            Items = items,
+            Total = total
+        };
     }
 
     public async Task<Transaction?> GetTransactionByIdAndAccountIdAndUserIdAsync(int transactionId, int accountId, int userId)

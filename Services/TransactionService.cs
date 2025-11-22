@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.Entities;
 using Florin_API.Exceptions.Transaction;
 using Florin_API.Repositories.Interfaces;
@@ -12,6 +13,13 @@ public class TransactionService(IAccountService accountService, ICategoryService
         var account = await accountService.GetAccountByIdAndUserIdAsync(accountId, userId);
 
         return await transactionRepository.GetTransactionsByAccountIdAndUserIdAsync(account.Id, userId);
+    }
+
+    public async Task<Pagination<Transaction>> GetTransactionsByAccountIdAndUserIdAsync(int accountId, int userId, PaginationFilter paginationFilter)
+    {
+        var account = await accountService.GetAccountByIdAndUserIdAsync(accountId, userId);
+
+        return await transactionRepository.GetTransactionsByAccountIdAndUserIdAsync(account.Id, userId, paginationFilter);
     }
 
     public async Task<Transaction> GetTransactionByIdAndAccountIdAndUserIdAsync(int transactionId, int accountId, int userId)

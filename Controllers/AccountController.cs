@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.DTOs.Account;
 using Florin_API.DTOs.Transaction;
 using Florin_API.Mappers;
@@ -13,9 +14,18 @@ namespace Florin_API.Controllers
     public class AccountController(IUserContextService userContextService, IAccountService accountService, ITransactionService transactionService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAccounts()
+        public async Task<IActionResult> GetAccounts([FromQuery] PaginationFilter? paginationFilter)
         {
             var userId = userContextService.GetCurrentUserId();
+
+            if (paginationFilter is not null)
+            {
+                var pagedAccounts = await accountService.GetAccountsByUserIdAsync(userId, paginationFilter);
+                var pagedAccountsDto = AccountMapper.ToDTO(pagedAccounts);
+
+                return Ok(pagedAccountsDto);
+            }
+
             var accounts = await accountService.GetAccountsByUserIdAsync(userId);
             var accountsDto = AccountMapper.ToDTOs(accounts);
 
@@ -68,9 +78,18 @@ namespace Florin_API.Controllers
         }
 
         [HttpGet("{accountId}/transactions")]
-        public async Task<IActionResult> GetAccountTransactions(int accountId)
+        public async Task<IActionResult> GetAccountTransactions(int accountId, [FromQuery] PaginationFilter? paginationFilter)
         {
             var userId = userContextService.GetCurrentUserId();
+
+            if (paginationFilter is not null)
+            {
+                var pagedTransactions = await transactionService.GetTransactionsByAccountIdAndUserIdAsync(accountId, userId, paginationFilter);
+                var pagedTransactionsDto = TransactionMapper.ToDTO(pagedTransactions);
+
+                return Ok(pagedTransactionsDto);
+            }
+
             var transactions = await transactionService.GetTransactionsByAccountIdAndUserIdAsync(accountId, userId);
             var transactionsDto = TransactionMapper.ToDTOs(transactions);
 

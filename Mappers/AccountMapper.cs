@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.DTOs.Account;
 using Florin_API.Entities;
 
@@ -36,5 +37,14 @@ public static class AccountMapper
     public static ICollection<AccountDTO> ToDTOs(this ICollection<Account> entities)
     {
         return [.. entities.Select(e => e.ToDTO())];
+    }
+
+    public static Pagination<AccountDTO> ToDTO(this Pagination<Account> pagination)
+    {
+        return new Pagination<AccountDTO>
+        {
+            Items = pagination.Items.ToDTOs(),
+            Total = pagination.Total
+        };
     }
 }

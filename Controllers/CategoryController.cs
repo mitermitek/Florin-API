@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.DTOs.Category;
 using Florin_API.Mappers;
 using Florin_API.Services.Interfaces;
@@ -12,9 +13,18 @@ namespace Florin_API.Controllers
     public class CategoryController(IUserContextService userContextService, ICategoryService categoryService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetCategories()
+        public async Task<IActionResult> GetCategories([FromQuery] PaginationFilter? paginationFilter)
         {
             var userId = userContextService.GetCurrentUserId();
+
+            if (paginationFilter is not null)
+            {
+                var pagedCategories = await categoryService.GetCategoriesByUserIdAsync(userId, paginationFilter);
+                var pagedCategoriesDto = CategoryMapper.ToDTO(pagedCategories);
+
+                return Ok(pagedCategoriesDto);
+            }
+
             var categories = await categoryService.GetCategoriesByUserIdAsync(userId);
             var categoriesDto = CategoryMapper.ToDTOs(categories);
 

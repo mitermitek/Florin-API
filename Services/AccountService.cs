@@ -1,3 +1,4 @@
+using Florin_API.Common;
 using Florin_API.Entities;
 using Florin_API.Exceptions.Account;
 using Florin_API.Repositories.Interfaces;
@@ -10,6 +11,11 @@ public class AccountService(IAccountRepository accountRepository) : IAccountServ
     public async Task<ICollection<Account>> GetAccountsByUserIdAsync(int userId)
     {
         return await accountRepository.GetAccountsByUserIdAsync(userId);
+    }
+
+    public async Task<Pagination<Account>> GetAccountsByUserIdAsync(int userId, PaginationFilter paginationFilter)
+    {
+        return await accountRepository.GetAccountsByUserIdAsync(userId, paginationFilter);
     }
 
     public async Task<Account> GetAccountByIdAndUserIdAsync(int id, int userId)
