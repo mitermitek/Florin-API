@@ -1,6 +1,8 @@
 using Florin_API.DTOs.Exception;
+using Florin_API.Exceptions.Account;
 using Florin_API.Exceptions.Auth;
 using Florin_API.Exceptions.Category;
+using Florin_API.Exceptions.Transaction;
 using Florin_API.Exceptions.User;
 
 namespace Florin_API.Middlewares;
@@ -32,8 +34,8 @@ public class ExceptionMiddleware(RequestDelegate next)
         context.Response.StatusCode = exception switch
         {
             BadCredentialsException => StatusCodes.Status401Unauthorized,
-            CategoryNotFoundException => StatusCodes.Status404NotFound,
-            UserAlreadyExistsException or CategoryAlreadyExistsException => StatusCodes.Status409Conflict,
+            UserNotFoundException or CategoryNotFoundException or AccountNotFoundException or TransactionNotFoundException => StatusCodes.Status404NotFound,
+            UserAlreadyExistsException or CategoryAlreadyExistsException or AccountAlreadyExistsException => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError,
         };
 
