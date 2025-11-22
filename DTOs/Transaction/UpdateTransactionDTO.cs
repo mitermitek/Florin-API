@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Florin_API.Domain.Enums;
+using Florin_API.Enums;
 
 namespace Florin_API.DTOs.Transaction;
 

@@ -1,4 +1,4 @@
-namespace Florin_API.Domain.Enums;
+namespace Florin_API.Enums;
 
 public enum TransactionType
 {

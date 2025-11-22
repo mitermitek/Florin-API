@@ -1,4 +1,4 @@
-using Florin_API.Domain.Enums;
+using Florin_API.Enums;
 using Florin_API.DTOs.Category;
 
 namespace Florin_API.DTOs.Transaction;

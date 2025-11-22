@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Florin_API.Domain.Enums;
+using Florin_API.Enums;
 
 namespace Florin_API.Entities;
 
