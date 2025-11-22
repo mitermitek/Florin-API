@@ -19,25 +19,25 @@ public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
         return await ctx.Accounts.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
     }
 
-    public async Task<Account> CreateAccountAsync(Account category)
+    public async Task<Account> CreateAccountAsync(Account account)
     {
-        ctx.Accounts.Add(category);
+        ctx.Accounts.Add(account);
         await ctx.SaveChangesAsync();
 
-        return category;
+        return account;
     }
 
-    public async Task<Account> UpdateAccountAsync(Account category)
+    public async Task<Account> UpdateAccountAsync(Account account)
     {
-        ctx.Accounts.Update(category);
+        ctx.Accounts.Update(account);
         await ctx.SaveChangesAsync();
 
-        return category;
+        return account;
     }
 
-    public async Task DeleteAccountAsync(Account category)
+    public async Task DeleteAccountAsync(Account account)
     {
-        ctx.Accounts.Remove(category);
+        ctx.Accounts.Remove(account);
         await ctx.SaveChangesAsync();
     }
 
