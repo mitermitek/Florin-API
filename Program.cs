@@ -43,6 +43,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         };
     });
 
+builder.Services.AddCors(opt =>
+{
+    var frontEndUrl = builder.Configuration.GetValue<string>("FrontEndUrl");
+    if (string.IsNullOrEmpty(frontEndUrl))
+    {
+        throw new InvalidOperationException("FrontEndUrl is not configured.");
+    }
+
+    opt.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(frontEndUrl)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -69,6 +86,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
