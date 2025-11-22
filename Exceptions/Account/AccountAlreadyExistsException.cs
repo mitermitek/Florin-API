@@ -1,0 +1,8 @@
+namespace Florin_API.Exceptions.Account;
+
+public class AccountAlreadyExistsException : Exception
+{
+    public AccountAlreadyExistsException() : base("Account already exists.") { }
+    public AccountAlreadyExistsException(string message) : base(message) { }
+    public AccountAlreadyExistsException(string message, Exception inner) : base(message, inner) { }
+}
