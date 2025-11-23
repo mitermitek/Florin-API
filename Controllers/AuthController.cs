@@ -45,5 +45,14 @@ namespace Florin_API.Controllers
 
             return Ok(userDto);
         }
+
+        [HttpDelete("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await authService.LogoutAsync();
+
+            return NoContent();
+        }
     }
 }

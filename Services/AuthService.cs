@@ -36,4 +36,10 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserService 
 
         return existingUser;
     }
+
+    public async Task LogoutAsync()
+    {
+        var HttpContext = httpContextAccessor.HttpContext ?? throw new HttpContextException();
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    }
 }
