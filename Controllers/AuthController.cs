@@ -1,15 +1,14 @@
 using Florin_API.DTOs.Auth;
-using Florin_API.DTOs.Exception;
-using Florin_API.DTOs.User;
 using Florin_API.Mappers;
 using Florin_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Florin_API.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController(IAuthService authService) : ControllerBase
+    public class AuthController(IUserContextService userContextService, IAuthService authService, IUserService userService) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDto)
@@ -32,6 +31,17 @@ namespace Florin_API.Controllers
             var userToLogIn = UserMapper.ToEntity(loginDto);
             var loggedInUser = await authService.LoginAsync(userToLogIn);
             var userDto = UserMapper.ToDTO(loggedInUser);
+
+            return Ok(userDto);
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = userContextService.GetCurrentUserId();
+            var currentUser = await userService.GetUserByIdAsync(userId);
+            var userDto = UserMapper.ToDTO(currentUser);
 
             return Ok(userDto);
         }
