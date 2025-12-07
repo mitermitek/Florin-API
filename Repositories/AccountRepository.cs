@@ -21,6 +21,7 @@ public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
 
         var total = await query.CountAsync();
         var items = await query
+            .OrderBy(c => c.Name)
             .Skip((paginationFilter.Page - 1) * paginationFilter.Size)
             .Take(paginationFilter.Size)
             .ToListAsync();

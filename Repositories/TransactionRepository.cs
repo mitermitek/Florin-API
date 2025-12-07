@@ -26,6 +26,7 @@ public class TransactionRepository(FlorinDbContext ctx) : ITransactionRepository
 
         var total = await query.CountAsync();
         var items = await query
+            .OrderByDescending(t => t.Date)
             .Skip((paginationFilter.Page - 1) * paginationFilter.Size)
             .Take(paginationFilter.Size)
             .ToListAsync();
