@@ -36,7 +36,7 @@ public class AccountService(IAccountRepository accountRepository) : IAccountServ
     {
         Account existingAccount = await GetAccountByIdAndUserIdAsync(id, userId);
 
-        if (existingAccount.Name != account.Name)
+        if (!existingAccount.Name.Equals(account.Name, StringComparison.OrdinalIgnoreCase))
         {
             await IsAccountExistsByNameAndUserIdAsync(account.Name, userId);
         }

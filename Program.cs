@@ -15,7 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FlorinDbContext>(opt =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions =>
+    {
+        mySqlOptions.EnableStringComparisonTranslations();
+    });
 });
 
 builder.Services.AddHttpContextAccessor();

@@ -62,6 +62,6 @@ public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
 
     public async Task<bool> IsAccountExistsByNameAndUserIdAsync(string name, int userId)
     {
-        return await ctx.Accounts.AnyAsync(c => c.Name == name && c.UserId == userId);
+        return await ctx.Accounts.AnyAsync(c => c.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase) && c.UserId == userId);
     }
 }
