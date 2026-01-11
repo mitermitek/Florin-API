@@ -15,7 +15,7 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserService 
         return await userService.CreateUserAsync(user);
     }
 
-    public async Task<User> LoginAsync(User user)
+    public async Task<User> LoginAsync(User user, bool rememberMe = false)
     {
         User? existingUser = await userService.GetUserByEmailAsync(user.Email);
         if (existingUser is null || !userService.VerifyUserPassword(existingUser, user.Password))
@@ -29,7 +29,11 @@ public class AuthService(IHttpContextAccessor httpContextAccessor, IUserService 
         };
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
-        var authProperties = new AuthenticationProperties { };
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = rememberMe,
+            AllowRefresh = true
+        };
 
         var HttpContext = httpContextAccessor.HttpContext ?? throw new HttpContextException();
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);

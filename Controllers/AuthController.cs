@@ -29,7 +29,7 @@ namespace Florin_API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
         {
             var userToLogIn = UserMapper.ToEntity(loginDto);
-            var loggedInUser = await authService.LoginAsync(userToLogIn);
+            var loggedInUser = await authService.LoginAsync(userToLogIn, loginDto.RememberMe);
             var userDto = UserMapper.ToDTO(loggedInUser);
 
             return Ok(userDto);
