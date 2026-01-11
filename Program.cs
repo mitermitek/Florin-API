@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Florin_API.Data;
 using Florin_API.Entities;
 using Florin_API.Middlewares;
@@ -63,7 +64,11 @@ builder.Services.AddCors(opt =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(System.Text.Json.JsonNamingPolicy.CamelCase));
+    });
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
