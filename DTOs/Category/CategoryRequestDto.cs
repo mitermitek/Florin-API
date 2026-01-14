@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Florin_API.DTOs.Category;
 
-public record UpdateCategoryDto
+public record CategoryRequestDto
 {
     [Required]
     [MaxLength(100)]

@@ -6,15 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class CategoryMapper
 {
-    public static Category ToEntity(this CreateCategoryDto dto)
-    {
-        return new Category
-        {
-            Name = dto.Name
-        };
-    }
-
-    public static Category ToEntity(this UpdateCategoryDto dto)
+    public static Category ToEntity(this CategoryRequestDto dto)
     {
         return new Category
         {

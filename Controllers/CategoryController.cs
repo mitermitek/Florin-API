@@ -42,10 +42,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryRequestDto categoryRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var categoryToCreate = createCategoryDto.ToEntity();
+            var categoryToCreate = categoryRequestDto.ToEntity();
             var createdCategory = await categoryService.CreateCategoryByUserIdAsync(userId, categoryToCreate);
             var categoryDto = CategoryMapper.ToDto(createdCategory);
 
@@ -57,10 +57,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDto categoryRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var categoryToUpdate = updateCategoryDto.ToEntity();
+            var categoryToUpdate = categoryRequestDto.ToEntity();
             var updatedCategory = await categoryService.UpdateCategoryByIdAndUserIdAsync(id, userId, categoryToUpdate);
             var categoryDto = CategoryMapper.ToDto(updatedCategory);
 

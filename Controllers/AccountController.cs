@@ -43,10 +43,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountRequestDto accountRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var accountToCreate = createAccountDto.ToEntity();
+            var accountToCreate = accountRequestDto.ToEntity();
             var createdAccount = await accountService.CreateAccountByUserIdAsync(userId, accountToCreate);
             var accountDto = AccountMapper.ToDto(createdAccount);
 
@@ -58,10 +58,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, [FromBody] UpdateAccountDto updateAccountDto)
+        public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountRequestDto accountRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var accountToUpdate = updateAccountDto.ToEntity();
+            var accountToUpdate = accountRequestDto.ToEntity();
             var updatedAccount = await accountService.UpdateAccountByIdAndUserIdAsync(id, userId, accountToUpdate);
             var accountDto = AccountMapper.ToDto(updatedAccount);
 
@@ -107,10 +107,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPost("{accountId}/transactions")]
-        public async Task<IActionResult> CreateAccountTransaction(int accountId, [FromBody] CreateTransactionDto createTransactionDto)
+        public async Task<IActionResult> CreateAccountTransaction(int accountId, [FromBody] TransactionRequestDto transactionRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var transactionToCreate = createTransactionDto.ToEntity();
+            var transactionToCreate = transactionRequestDto.ToEntity();
             var createdTransaction = await transactionService.CreateTransactionByAccountIdAndUserIdAsync(accountId, userId, transactionToCreate);
             var transactionDto = TransactionMapper.ToDto(createdTransaction);
 
@@ -122,10 +122,10 @@ namespace Florin_API.Controllers
         }
 
         [HttpPut("{accountId}/transactions/{transactionId}")]
-        public async Task<IActionResult> UpdateAccountTransaction(int accountId, int transactionId, [FromBody] UpdateTransactionDto updateTransactionDto)
+        public async Task<IActionResult> UpdateAccountTransaction(int accountId, int transactionId, [FromBody] TransactionRequestDto transactionRequestDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var transactionToUpdate = updateTransactionDto.ToEntity();
+            var transactionToUpdate = transactionRequestDto.ToEntity();
             var updatedTransaction = await transactionService.UpdateTransactionByIdAndAccountIdAndUserIdAsync(transactionId, accountId, userId, transactionToUpdate);
             var transactionDto = TransactionMapper.ToDto(updatedTransaction);
 

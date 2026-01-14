@@ -6,16 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class AccountMapper
 {
-    public static Account ToEntity(this CreateAccountDto dto)
-    {
-        return new Account
-        {
-            Name = dto.Name,
-            StartingBalance = dto.StartingBalance
-        };
-    }
-
-    public static Account ToEntity(this UpdateAccountDto dto)
+    public static Account ToEntity(this AccountRequestDto dto)
     {
         return new Account
         {

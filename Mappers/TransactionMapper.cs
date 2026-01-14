@@ -6,20 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class TransactionMapper
 {
-    public static Transaction ToEntity(this CreateTransactionDto dto)
-    {
-        return new Transaction
-        {
-            CategoryId = dto.CategoryId,
-            Type = dto.Type,
-            Amount = dto.Amount,
-            Date = dto.Date,
-            Title = dto.Title,
-            Description = dto.Description,
-        };
-    }
-
-    public static Transaction ToEntity(this UpdateTransactionDto dto)
+    public static Transaction ToEntity(this TransactionRequestDto dto)
     {
         return new Transaction
         {
