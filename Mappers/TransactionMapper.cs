@@ -46,11 +46,6 @@ public static class TransactionMapper
         };
     }
 
-    public static ICollection<TransactionDto> ToDtos(this ICollection<Transaction> entities)
-    {
-        return [.. entities.Select(e => e.ToDto())];
-    }
-
     public static Pagination<TransactionDto> ToDto(this Pagination<Transaction> pagination)
     {
         return new Pagination<TransactionDto>
@@ -58,5 +53,10 @@ public static class TransactionMapper
             Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
+    }
+
+    public static ICollection<TransactionDto> ToDtos(this ICollection<Transaction> entities)
+    {
+        return [.. entities.Select(e => e.ToDto())];
     }
 }

@@ -31,11 +31,6 @@ public static class CategoryMapper
         };
     }
 
-    public static ICollection<CategoryDto> ToDtos(this ICollection<Category> entities)
-    {
-        return [.. entities.Select(e => e.ToDto())];
-    }
-
     public static Pagination<CategoryDto> ToDto(this Pagination<Category> pagination)
     {
         return new Pagination<CategoryDto>
@@ -43,5 +38,10 @@ public static class CategoryMapper
             Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
+    }
+
+    public static ICollection<CategoryDto> ToDtos(this ICollection<Category> entities)
+    {
+        return [.. entities.Select(e => e.ToDto())];
     }
 }

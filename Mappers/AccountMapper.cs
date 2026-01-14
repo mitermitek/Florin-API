@@ -34,11 +34,6 @@ public static class AccountMapper
         };
     }
 
-    public static ICollection<AccountDto> ToDtos(this ICollection<Account> entities)
-    {
-        return [.. entities.Select(e => e.ToDto())];
-    }
-
     public static Pagination<AccountDto> ToDto(this Pagination<Account> pagination)
     {
         return new Pagination<AccountDto>
@@ -46,5 +41,10 @@ public static class AccountMapper
             Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
+    }
+
+    public static ICollection<AccountDto> ToDtos(this ICollection<Account> entities)
+    {
+        return [.. entities.Select(e => e.ToDto())];
     }
 }
