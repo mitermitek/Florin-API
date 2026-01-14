@@ -13,8 +13,8 @@ namespace Florin_API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user =  await userService.GetUserByIdAsync(id);
-            var userDto = UserMapper.ToDTO(user);
+            var user = await userService.GetUserByIdAsync(id);
+            var userDto = UserMapper.ToDto(user);
 
             return Ok(userDto);
         }

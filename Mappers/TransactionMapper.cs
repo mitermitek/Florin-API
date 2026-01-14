@@ -6,7 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class TransactionMapper
 {
-    public static Transaction ToEntity(this CreateTransactionDTO dto)
+    public static Transaction ToEntity(this CreateTransactionDto dto)
     {
         return new Transaction
         {
@@ -19,7 +19,7 @@ public static class TransactionMapper
         };
     }
 
-    public static Transaction ToEntity(this UpdateTransactionDTO dto)
+    public static Transaction ToEntity(this UpdateTransactionDto dto)
     {
         return new Transaction
         {
@@ -32,9 +32,9 @@ public static class TransactionMapper
         };
     }
 
-    public static TransactionDTO ToDTO(this Transaction entity)
+    public static TransactionDto ToDto(this Transaction entity)
     {
-        return new TransactionDTO
+        return new TransactionDto
         {
             Id = entity.Id,
             Type = entity.Type,
@@ -42,20 +42,20 @@ public static class TransactionMapper
             Date = entity.Date,
             Title = entity.Title,
             Description = entity.Description,
-            Category = CategoryMapper.ToDTO(entity.Category),
+            Category = CategoryMapper.ToDto(entity.Category),
         };
     }
 
-    public static ICollection<TransactionDTO> ToDTOs(this ICollection<Transaction> entities)
+    public static ICollection<TransactionDto> ToDtos(this ICollection<Transaction> entities)
     {
-        return [.. entities.Select(e => e.ToDTO())];
+        return [.. entities.Select(e => e.ToDto())];
     }
 
-    public static Pagination<TransactionDTO> ToDTO(this Pagination<Transaction> pagination)
+    public static Pagination<TransactionDto> ToDto(this Pagination<Transaction> pagination)
     {
-        return new Pagination<TransactionDTO>
+        return new Pagination<TransactionDto>
         {
-            Items = pagination.Items.ToDTOs(),
+            Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
     }

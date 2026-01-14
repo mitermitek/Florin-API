@@ -6,7 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class AccountMapper
 {
-    public static Account ToEntity(this CreateAccountDTO dto)
+    public static Account ToEntity(this CreateAccountDto dto)
     {
         return new Account
         {
@@ -15,7 +15,7 @@ public static class AccountMapper
         };
     }
 
-    public static Account ToEntity(this UpdateAccountDTO dto)
+    public static Account ToEntity(this UpdateAccountDto dto)
     {
         return new Account
         {
@@ -24,9 +24,9 @@ public static class AccountMapper
         };
     }
 
-    public static AccountDTO ToDTO(this Account entity)
+    public static AccountDto ToDto(this Account entity)
     {
-        return new AccountDTO
+        return new AccountDto
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -34,16 +34,16 @@ public static class AccountMapper
         };
     }
 
-    public static ICollection<AccountDTO> ToDTOs(this ICollection<Account> entities)
+    public static ICollection<AccountDto> ToDtos(this ICollection<Account> entities)
     {
-        return [.. entities.Select(e => e.ToDTO())];
+        return [.. entities.Select(e => e.ToDto())];
     }
 
-    public static Pagination<AccountDTO> ToDTO(this Pagination<Account> pagination)
+    public static Pagination<AccountDto> ToDto(this Pagination<Account> pagination)
     {
-        return new Pagination<AccountDTO>
+        return new Pagination<AccountDto>
         {
-            Items = pagination.Items.ToDTOs(),
+            Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
     }

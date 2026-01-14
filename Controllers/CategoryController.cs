@@ -20,13 +20,13 @@ namespace Florin_API.Controllers
             if (paginationFilter is not null)
             {
                 var pagedCategories = await categoryService.GetCategoriesByUserIdAsync(userId, paginationFilter);
-                var pagedCategoriesDto = CategoryMapper.ToDTO(pagedCategories);
+                var pagedCategoriesDto = CategoryMapper.ToDto(pagedCategories);
 
                 return Ok(pagedCategoriesDto);
             }
 
             var categories = await categoryService.GetCategoriesByUserIdAsync(userId);
-            var categoriesDto = CategoryMapper.ToDTOs(categories);
+            var categoriesDto = CategoryMapper.ToDtos(categories);
 
             return Ok(categoriesDto);
         }
@@ -36,18 +36,18 @@ namespace Florin_API.Controllers
         {
             var userId = userContextService.GetCurrentUserId();
             var category = await categoryService.GetCategoryByIdAndUserIdAsync(id, userId);
-            var categoryDto = CategoryMapper.ToDTO(category);
+            var categoryDto = CategoryMapper.ToDto(category);
 
             return Ok(categoryDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO createCategoryDTO)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var categoryToCreate = createCategoryDTO.ToEntity();
+            var categoryToCreate = createCategoryDto.ToEntity();
             var createdCategory = await categoryService.CreateCategoryByUserIdAsync(userId, categoryToCreate);
-            var categoryDto = CategoryMapper.ToDTO(createdCategory);
+            var categoryDto = CategoryMapper.ToDto(createdCategory);
 
             return CreatedAtAction(
                 nameof(GetCategoryById),
@@ -57,12 +57,12 @@ namespace Florin_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDTO updateCategoryDTO)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
             var userId = userContextService.GetCurrentUserId();
-            var categoryToUpdate = updateCategoryDTO.ToEntity();
+            var categoryToUpdate = updateCategoryDto.ToEntity();
             var updatedCategory = await categoryService.UpdateCategoryByIdAndUserIdAsync(id, userId, categoryToUpdate);
-            var categoryDto = CategoryMapper.ToDTO(updatedCategory);
+            var categoryDto = CategoryMapper.ToDto(updatedCategory);
 
             return Ok(categoryDto);
         }

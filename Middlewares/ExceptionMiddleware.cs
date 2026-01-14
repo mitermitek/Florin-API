@@ -25,7 +25,7 @@ public class ExceptionMiddleware(RequestDelegate next)
     {
         context.Response.ContentType = "application/json";
 
-        var response = new ExceptionDTO
+        var response = new ExceptionDto
         {
             Message = exception.Message,
             Type = exception.GetType().Name

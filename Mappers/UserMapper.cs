@@ -6,7 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class UserMapper
 {
-    public static User ToEntity(this RegisterDTO dto)
+    public static User ToEntity(this RegisterDto dto)
     {
         return new User
         {
@@ -17,7 +17,7 @@ public static class UserMapper
         };
     }
 
-    public static User ToEntity(this LoginDTO dto)
+    public static User ToEntity(this LoginDto dto)
     {
         return new User
         {
@@ -26,9 +26,9 @@ public static class UserMapper
         };
     }
 
-    public static UserDTO ToDTO(this User entity)
+    public static UserDto ToDto(this User entity)
     {
-        return new UserDTO
+        return new UserDto
         {
             Id = entity.Id,
             FirstName = entity.FirstName,

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Florin_API.DTOs.Auth;
 
-public record LoginDTO
+public record LoginDto
 {
     [Required]
     public required string Email { get; init; }

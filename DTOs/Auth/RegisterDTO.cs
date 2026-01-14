@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Florin_API.DTOs.Auth;
 
-public record RegisterDTO
+public record RegisterDto
 {
     [Required]
     [MinLength(3), MaxLength(100)]

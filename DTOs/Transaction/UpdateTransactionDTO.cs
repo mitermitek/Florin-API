@@ -3,7 +3,7 @@ using Florin_API.Enums;
 
 namespace Florin_API.DTOs.Transaction;
 
-public record UpdateTransactionDTO
+public record UpdateTransactionDto
 {
     [Required]
     public int CategoryId { get; init; }

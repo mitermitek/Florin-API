@@ -6,7 +6,7 @@ namespace Florin_API.Mappers;
 
 public static class CategoryMapper
 {
-    public static Category ToEntity(this CreateCategoryDTO dto)
+    public static Category ToEntity(this CreateCategoryDto dto)
     {
         return new Category
         {
@@ -14,7 +14,7 @@ public static class CategoryMapper
         };
     }
 
-    public static Category ToEntity(this UpdateCategoryDTO dto)
+    public static Category ToEntity(this UpdateCategoryDto dto)
     {
         return new Category
         {
@@ -22,25 +22,25 @@ public static class CategoryMapper
         };
     }
 
-    public static CategoryDTO ToDTO(this Category entity)
+    public static CategoryDto ToDto(this Category entity)
     {
-        return new CategoryDTO
+        return new CategoryDto
         {
             Id = entity.Id,
             Name = entity.Name
         };
     }
 
-    public static ICollection<CategoryDTO> ToDTOs(this ICollection<Category> entities)
+    public static ICollection<CategoryDto> ToDtos(this ICollection<Category> entities)
     {
-        return [.. entities.Select(e => e.ToDTO())];
+        return [.. entities.Select(e => e.ToDto())];
     }
 
-    public static Pagination<CategoryDTO> ToDTO(this Pagination<Category> pagination)
+    public static Pagination<CategoryDto> ToDto(this Pagination<Category> pagination)
     {
-        return new Pagination<CategoryDTO>
+        return new Pagination<CategoryDto>
         {
-            Items = pagination.Items.ToDTOs(),
+            Items = pagination.Items.ToDtos(),
             Total = pagination.Total
         };
     }

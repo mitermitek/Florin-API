@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Florin_API.DTOs.Account;
 
-public record UpdateAccountDTO
+public record UpdateAccountDto
 {
     [Required]
     [MaxLength(100)]
