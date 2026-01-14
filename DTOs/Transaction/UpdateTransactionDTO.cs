@@ -6,18 +6,18 @@ namespace Florin_API.DTOs.Transaction;
 public record UpdateTransactionDto
 {
     [Required]
-    public int CategoryId { get; init; }
+    public required int CategoryId { get; init; }
 
     [Required]
     [EnumDataType(typeof(TransactionType))]
-    public TransactionType Type { get; init; }
+    public required TransactionType Type { get; init; }
 
     [Required]
     [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
-    public decimal Amount { get; init; }
+    public required decimal Amount { get; init; }
 
     [Required]
-    public DateTime Date { get; init; }
+    public required DateTime Date { get; init; }
 
     [Required]
     [MaxLength(255)]
