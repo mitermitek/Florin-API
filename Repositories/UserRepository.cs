@@ -7,26 +7,26 @@ namespace Florin_API.Repositories;
 
 public class UserRepository(FlorinDbContext ctx) : IUserRepository
 {
-    public async Task<User> CreateUserAsync(User user)
+    public async Task<User> CreateUserAsync(User user, CancellationToken cancellationToken)
     {
         ctx.Users.Add(user);
-        await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync(cancellationToken);
 
         return user;
     }
 
-    public async Task<bool> IsUserExistsByEmailAsync(string email)
+    public async Task<bool> IsUserExistsByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        return await ctx.Users.AnyAsync(u => u.Email == email);
+        return await ctx.Users.AnyAsync(u => u.Email == email, cancellationToken);
     }
 
-    public async Task<User?> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        return await ctx.Users.FirstOrDefaultAsync(u => u.Email == email);
+        return await ctx.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
+    public async Task<User?> GetUserByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await ctx.Users.FindAsync(id);
+        return await ctx.Users.FindAsync(id, cancellationToken);
     }
 }

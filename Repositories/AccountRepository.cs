@@ -8,14 +8,14 @@ namespace Florin_API.Repositories;
 
 public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
 {
-    public async Task<ICollection<Account>> GetAccountsByUserIdAsync(int userId)
+    public async Task<ICollection<Account>> GetAccountsByUserIdAsync(int userId, CancellationToken cancellationToken)
     {
         return await ctx.Accounts
             .Where(c => c.UserId == userId)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<Pagination<Account>> GetAccountsByUserIdAsync(int userId, PaginationFilter paginationFilter)
+    public async Task<Pagination<Account>> GetAccountsByUserIdAsync(int userId, PaginationFilter paginationFilter, CancellationToken cancellationToken)
     {
         var query = ctx.Accounts.Where(c => c.UserId == userId);
 
@@ -24,7 +24,7 @@ public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
             .OrderBy(c => c.Name)
             .Skip((paginationFilter.Page - 1) * paginationFilter.Size)
             .Take(paginationFilter.Size)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         return new Pagination<Account>
         {
@@ -33,35 +33,35 @@ public class AccountRepository(FlorinDbContext ctx) : IAccountRepository
         };
     }
 
-    public async Task<Account?> GetAccountByIdAndUserIdAsync(int id, int userId)
+    public async Task<Account?> GetAccountByIdAndUserIdAsync(int id, int userId, CancellationToken cancellationToken)
     {
-        return await ctx.Accounts.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+        return await ctx.Accounts.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId, cancellationToken);
     }
 
-    public async Task<Account> CreateAccountAsync(Account account)
+    public async Task<Account> CreateAccountAsync(Account account, CancellationToken cancellationToken)
     {
         ctx.Accounts.Add(account);
-        await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync(cancellationToken);
 
         return account;
     }
 
-    public async Task<Account> UpdateAccountAsync(Account account)
+    public async Task<Account> UpdateAccountAsync(Account account, CancellationToken cancellationToken)
     {
         ctx.Accounts.Update(account);
-        await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync(cancellationToken);
 
         return account;
     }
 
-    public async Task DeleteAccountAsync(Account account)
+    public async Task DeleteAccountAsync(Account account, CancellationToken cancellationToken)
     {
         ctx.Accounts.Remove(account);
-        await ctx.SaveChangesAsync();
+        await ctx.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<bool> IsAccountExistsByNameAndUserIdAsync(string name, int userId)
+    public async Task<bool> IsAccountExistsByNameAndUserIdAsync(string name, int userId, CancellationToken cancellationToken)
     {
-        return await ctx.Accounts.AnyAsync(c => c.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase) && c.UserId == userId);
+        return await ctx.Accounts.AnyAsync(c => c.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase) && c.UserId == userId, cancellationToken);
     }
 }

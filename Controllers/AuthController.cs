@@ -11,10 +11,10 @@ namespace Florin_API.Controllers
     public class AuthController(IUserContextService userContextService, IAuthService authService, IUserService userService) : ControllerBase
     {
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
         {
             var userToRegister = UserMapper.ToEntity(registerDto);
-            var registeredUser = await authService.RegisterAsync(userToRegister);
+            var registeredUser = await authService.RegisterAsync(userToRegister, cancellationToken);
             var userDto = UserMapper.ToDto(registeredUser);
             return CreatedAtAction(
                 nameof(UserController.GetUserById),
@@ -25,20 +25,20 @@ namespace Florin_API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
         {
             var userToLogIn = UserMapper.ToEntity(loginDto);
-            var loggedInUser = await authService.LoginAsync(userToLogIn, loginDto.RememberMe);
+            var loggedInUser = await authService.LoginAsync(userToLogIn, loginDto.RememberMe, cancellationToken);
             var userDto = UserMapper.ToDto(loggedInUser);
             return Ok(userDto);
         }
 
         [HttpGet("me")]
         [Authorize]
-        public async Task<IActionResult> GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var currentUser = await userService.GetUserByIdAsync(userId);
+            var currentUser = await userService.GetUserByIdAsync(userId, cancellationToken);
             var userDto = UserMapper.ToDto(currentUser);
 
             return Ok(userDto);

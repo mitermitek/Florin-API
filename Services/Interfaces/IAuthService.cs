@@ -4,7 +4,7 @@ namespace Florin_API.Services.Interfaces;
 
 public interface IAuthService
 {
-    Task<User> RegisterAsync(User user);
-    Task<User> LoginAsync(User user, bool rememberMe = false);
+    Task<User> RegisterAsync(User user, CancellationToken cancellationToken);
+    Task<User> LoginAsync(User user, bool rememberMe, CancellationToken cancellationToken);
     Task LogoutAsync();
 }

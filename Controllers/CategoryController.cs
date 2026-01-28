@@ -13,40 +13,40 @@ namespace Florin_API.Controllers
     public class CategoryController(IUserContextService userContextService, ICategoryService categoryService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] PaginationFilter? paginationFilter)
+        public async Task<IActionResult> GetCategories([FromQuery] PaginationFilter? paginationFilter, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
 
             if (paginationFilter is not null)
             {
-                var pagedCategories = await categoryService.GetCategoriesByUserIdAsync(userId, paginationFilter);
+                var pagedCategories = await categoryService.GetCategoriesByUserIdAsync(userId, paginationFilter, cancellationToken);
                 var pagedCategoriesDto = CategoryMapper.ToDto(pagedCategories);
 
                 return Ok(pagedCategoriesDto);
             }
 
-            var categories = await categoryService.GetCategoriesByUserIdAsync(userId);
+            var categories = await categoryService.GetCategoriesByUserIdAsync(userId, cancellationToken);
             var categoriesDto = CategoryMapper.ToDtos(categories);
 
             return Ok(categoriesDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        public async Task<IActionResult> GetCategoryById(int id, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var category = await categoryService.GetCategoryByIdAndUserIdAsync(id, userId);
+            var category = await categoryService.GetCategoryByIdAndUserIdAsync(id, userId, cancellationToken);
             var categoryDto = CategoryMapper.ToDto(category);
 
             return Ok(categoryDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CategoryRequestDto categoryRequestDto)
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryRequestDto categoryRequestDto, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
             var categoryToCreate = categoryRequestDto.ToEntity();
-            var createdCategory = await categoryService.CreateCategoryByUserIdAsync(userId, categoryToCreate);
+            var createdCategory = await categoryService.CreateCategoryByUserIdAsync(userId, categoryToCreate, cancellationToken);
             var categoryDto = CategoryMapper.ToDto(createdCategory);
 
             return CreatedAtAction(
@@ -57,21 +57,21 @@ namespace Florin_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDto categoryRequestDto)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDto categoryRequestDto, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
             var categoryToUpdate = categoryRequestDto.ToEntity();
-            var updatedCategory = await categoryService.UpdateCategoryByIdAndUserIdAsync(id, userId, categoryToUpdate);
+            var updatedCategory = await categoryService.UpdateCategoryByIdAndUserIdAsync(id, userId, categoryToUpdate, cancellationToken);
             var categoryDto = CategoryMapper.ToDto(updatedCategory);
 
             return Ok(categoryDto);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            await categoryService.DeleteCategoryByIdAndUserIdAsync(id, userId);
+            await categoryService.DeleteCategoryByIdAndUserIdAsync(id, userId, cancellationToken);
 
             return NoContent();
         }

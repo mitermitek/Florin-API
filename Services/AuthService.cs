@@ -10,15 +10,15 @@ namespace Florin_API.Services;
 
 public class AuthService(IHttpContextAccessor httpContextAccessor, IUserService userService) : IAuthService
 {
-    public async Task<User> RegisterAsync(User user)
+    public async Task<User> RegisterAsync(User user, CancellationToken cancellationToken)
     {
-        return await userService.CreateUserAsync(user);
+        return await userService.CreateUserAsync(user, cancellationToken);
     }
 
-    public async Task<User> LoginAsync(User user, bool rememberMe = false)
+    public async Task<User> LoginAsync(User user, bool rememberMe, CancellationToken cancellationToken)
     {
-        User? existingUser = await userService.GetUserByEmailAsync(user.Email);
-        if (existingUser is null || !userService.VerifyUserPassword(existingUser, user.Password))
+        User? existingUser = await userService.GetUserByEmailAsync(user.Email, cancellationToken);
+        if (existingUser is null || !userService.VerifyUserPassword(existingUser, user.Password, cancellationToken))
         {
             throw new BadCredentialsException();
         }
