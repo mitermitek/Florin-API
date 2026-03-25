@@ -14,9 +14,9 @@ namespace Florin_API.Controllers
         public async Task<IActionResult> GetUserById(int id, CancellationToken cancellationToken)
         {
             var user = await userService.GetUserByIdAsync(id, cancellationToken);
-            var userDto = UserMapper.ToDto(user);
+            var userResponse = UserMapper.ToResponse(user);
 
-            return Ok(userDto);
+            return Ok(userResponse);
         }
     }
 }

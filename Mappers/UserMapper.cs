@@ -1,34 +1,34 @@
-using Florin_API.DTOs.Auth;
-using Florin_API.DTOs.User;
+using Florin_API.DTOs.Requests;
+using Florin_API.DTOs.Responses;
 using Florin_API.Entities;
 
 namespace Florin_API.Mappers;
 
 public static class UserMapper
 {
-    public static User ToEntity(this RegisterDto dto)
+    public static User ToEntity(this RegisterRequest request)
     {
         return new User
         {
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            Email = dto.Email,
-            Password = dto.Password
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            Password = request.Password
         };
     }
 
-    public static User ToEntity(this LoginDto dto)
+    public static User ToEntity(this LoginRequest request)
     {
         return new User
         {
-            Email = dto.Email,
-            Password = dto.Password
+            Email = request.Email,
+            Password = request.Password
         };
     }
 
-    public static UserDto ToDto(this User entity)
+    public static UserResponse ToResponse(this User entity)
     {
-        return new UserDto
+        return new UserResponse
         {
             Id = entity.Id,
             FirstName = entity.FirstName,

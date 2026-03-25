@@ -1,4 +1,4 @@
-using Florin_API.DTOs.Auth;
+using Florin_API.DTOs.Requests;
 using Florin_API.Mappers;
 using Florin_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -11,26 +11,26 @@ namespace Florin_API.Controllers
     public class AuthController(IUserContextService userContextService, IAuthService authService, IUserService userService) : ControllerBase
     {
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest, CancellationToken cancellationToken)
         {
-            var userToRegister = UserMapper.ToEntity(registerDto);
+            var userToRegister = UserMapper.ToEntity(registerRequest);
             var registeredUser = await authService.RegisterAsync(userToRegister, cancellationToken);
-            var userDto = UserMapper.ToDto(registeredUser);
+            var userResponse = UserMapper.ToResponse(registeredUser);
             return CreatedAtAction(
                 nameof(UserController.GetUserById),
                 "User",
-                new { id = userDto.Id },
-                userDto
+                new { id = userResponse.Id },
+                userResponse
             );
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken)
         {
-            var userToLogIn = UserMapper.ToEntity(loginDto);
-            var loggedInUser = await authService.LoginAsync(userToLogIn, loginDto.RememberMe, cancellationToken);
-            var userDto = UserMapper.ToDto(loggedInUser);
-            return Ok(userDto);
+            var userToLogIn = UserMapper.ToEntity(loginRequest);
+            var loggedInUser = await authService.LoginAsync(userToLogIn, loginRequest.RememberMe, cancellationToken);
+            var userResponse = UserMapper.ToResponse(loggedInUser);
+            return Ok(userResponse);
         }
 
         [HttpGet("me")]
@@ -39,9 +39,9 @@ namespace Florin_API.Controllers
         {
             var userId = userContextService.GetCurrentUserId();
             var currentUser = await userService.GetUserByIdAsync(userId, cancellationToken);
-            var userDto = UserMapper.ToDto(currentUser);
+            var userResponse = UserMapper.ToResponse(currentUser);
 
-            return Ok(userDto);
+            return Ok(userResponse);
         }
 
         [HttpDelete("logout")]

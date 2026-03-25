@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Florin_API.DTOs.Auth;
+namespace Florin_API.DTOs.Requests;
 
-public record LoginDto
+public record LoginRequest
 {
     [Required]
     public required string Email { get; init; }

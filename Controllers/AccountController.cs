@@ -1,6 +1,5 @@
 using Florin_API.Common;
-using Florin_API.DTOs.Account;
-using Florin_API.DTOs.Transaction;
+using Florin_API.DTOs.Requests;
 using Florin_API.Mappers;
 using Florin_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -21,15 +20,15 @@ namespace Florin_API.Controllers
             if (paginationFilter is not null)
             {
                 var pagedAccounts = await accountService.GetAccountsByUserIdAsync(userId, paginationFilter, cancellationToken);
-                var pagedAccountsDto = AccountMapper.ToDto(pagedAccounts);
+                var pagedAccountsResponse = AccountMapper.ToResponse(pagedAccounts);
 
-                return Ok(pagedAccountsDto);
+                return Ok(pagedAccountsResponse);
             }
 
             var accounts = await accountService.GetAccountsByUserIdAsync(userId, cancellationToken);
-            var accountsDto = AccountMapper.ToDtos(accounts);
+            var accountsResponse = AccountMapper.ToResponses(accounts);
 
-            return Ok(accountsDto);
+            return Ok(accountsResponse);
         }
 
         [HttpGet("{id}")]
@@ -37,35 +36,35 @@ namespace Florin_API.Controllers
         {
             var userId = userContextService.GetCurrentUserId();
             var account = await accountService.GetAccountByIdAndUserIdAsync(id, userId, cancellationToken);
-            var accountDto = AccountMapper.ToDto(account);
+            var accountResponse = AccountMapper.ToResponse(account);
 
-            return Ok(accountDto);
+            return Ok(accountResponse);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountRequestDto accountRequestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountRequest accountRequest, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var accountToCreate = accountRequestDto.ToEntity();
+            var accountToCreate = accountRequest.ToEntity();
             var createdAccount = await accountService.CreateAccountByUserIdAsync(userId, accountToCreate, cancellationToken);
-            var accountDto = AccountMapper.ToDto(createdAccount);
+            var accountResponse = AccountMapper.ToResponse(createdAccount);
 
             return CreatedAtAction(
                 nameof(GetAccountById),
-                new { id = accountDto.Id },
-                accountDto
+                new { id = accountResponse.Id },
+                accountResponse
             );
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountRequestDto accountRequestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountRequest accountRequest, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var accountToUpdate = accountRequestDto.ToEntity();
+            var accountToUpdate = accountRequest.ToEntity();
             var updatedAccount = await accountService.UpdateAccountByIdAndUserIdAsync(id, userId, accountToUpdate, cancellationToken);
-            var accountDto = AccountMapper.ToDto(updatedAccount);
+            var accountResponse = AccountMapper.ToResponse(updatedAccount);
 
-            return Ok(accountDto);
+            return Ok(accountResponse);
         }
 
         [HttpDelete("{id}")]
@@ -85,15 +84,15 @@ namespace Florin_API.Controllers
             if (paginationFilter is not null)
             {
                 var pagedTransactions = await transactionService.GetTransactionsByAccountIdAndUserIdAsync(accountId, userId, paginationFilter, cancellationToken);
-                var pagedTransactionsDto = TransactionMapper.ToDto(pagedTransactions);
+                var pagedTransactionsResponse = TransactionMapper.ToResponse(pagedTransactions);
 
-                return Ok(pagedTransactionsDto);
+                return Ok(pagedTransactionsResponse);
             }
 
             var transactions = await transactionService.GetTransactionsByAccountIdAndUserIdAsync(accountId, userId, cancellationToken);
-            var transactionsDto = TransactionMapper.ToDtos(transactions);
+            var transactionsResponse = TransactionMapper.ToResponses(transactions);
 
-            return Ok(transactionsDto);
+            return Ok(transactionsResponse);
         }
 
         [HttpGet("{accountId}/transactions/{transactionId}")]
@@ -101,35 +100,35 @@ namespace Florin_API.Controllers
         {
             var userId = userContextService.GetCurrentUserId();
             var transaction = await transactionService.GetTransactionByIdAndAccountIdAndUserIdAsync(transactionId, accountId, userId, cancellationToken);
-            var transactionDto = TransactionMapper.ToDto(transaction);
+            var transactionResponse = TransactionMapper.ToResponse(transaction);
 
-            return Ok(transactionDto);
+            return Ok(transactionResponse);
         }
 
         [HttpPost("{accountId}/transactions")]
-        public async Task<IActionResult> CreateAccountTransaction(int accountId, [FromBody] TransactionRequestDto transactionRequestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAccountTransaction(int accountId, [FromBody] TransactionRequest transactionRequest, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var transactionToCreate = transactionRequestDto.ToEntity();
+            var transactionToCreate = transactionRequest.ToEntity();
             var createdTransaction = await transactionService.CreateTransactionByAccountIdAndUserIdAsync(accountId, userId, transactionToCreate, cancellationToken);
-            var transactionDto = TransactionMapper.ToDto(createdTransaction);
+            var transactionResponse = TransactionMapper.ToResponse(createdTransaction);
 
             return CreatedAtAction(
                 nameof(GetAccountTransactionById),
-                new { accountId, transactionId = transactionDto.Id },
-                transactionDto
+                new { accountId, transactionId = transactionResponse.Id },
+                transactionResponse
             );
         }
 
         [HttpPut("{accountId}/transactions/{transactionId}")]
-        public async Task<IActionResult> UpdateAccountTransaction(int accountId, int transactionId, [FromBody] TransactionRequestDto transactionRequestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAccountTransaction(int accountId, int transactionId, [FromBody] TransactionRequest transactionRequest, CancellationToken cancellationToken)
         {
             var userId = userContextService.GetCurrentUserId();
-            var transactionToUpdate = transactionRequestDto.ToEntity();
+            var transactionToUpdate = transactionRequest.ToEntity();
             var updatedTransaction = await transactionService.UpdateTransactionByIdAndAccountIdAndUserIdAsync(transactionId, accountId, userId, transactionToUpdate, cancellationToken);
-            var transactionDto = TransactionMapper.ToDto(updatedTransaction);
+            var transactionResponse = TransactionMapper.ToResponse(updatedTransaction);
 
-            return Ok(transactionDto);
+            return Ok(transactionResponse);
         }
 
         [HttpDelete("{accountId}/transactions/{transactionId}")]

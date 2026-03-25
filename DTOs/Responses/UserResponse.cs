@@ -1,6 +1,6 @@
-namespace Florin_API.DTOs.User;
+namespace Florin_API.DTOs.Responses;
 
-public record UserDto
+public record UserResponse
 {
     public int Id { get; set; }
     public required string FirstName { get; set; }

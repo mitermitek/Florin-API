@@ -1,6 +1,6 @@
-namespace Florin_API.DTOs.Exception;
+namespace Florin_API.DTOs.Responses;
 
-public record ExceptionDto
+public record ExceptionResponse
 {
     public required string Message { get; init; }
     public required string Type { get; init; }

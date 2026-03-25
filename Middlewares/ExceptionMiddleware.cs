@@ -1,4 +1,4 @@
-using Florin_API.DTOs.Exception;
+using Florin_API.DTOs.Responses;
 using Florin_API.Exceptions.Account;
 using Florin_API.Exceptions.Auth;
 using Florin_API.Exceptions.Category;
@@ -25,7 +25,7 @@ public class ExceptionMiddleware(RequestDelegate next)
     {
         context.Response.ContentType = "application/json";
 
-        var response = new ExceptionDto
+        var response = new ExceptionResponse
         {
             Message = exception.Message,
             Type = exception.GetType().Name

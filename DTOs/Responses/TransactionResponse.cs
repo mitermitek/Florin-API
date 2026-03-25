@@ -1,9 +1,8 @@
 using Florin_API.Enums;
-using Florin_API.DTOs.Category;
 
-namespace Florin_API.DTOs.Transaction;
+namespace Florin_API.DTOs.Responses;
 
-public record TransactionDto
+public record TransactionResponse
 {
     public int Id { get; init; }
     public TransactionType Type { get; init; }
@@ -11,5 +10,5 @@ public record TransactionDto
     public DateTime Date { get; init; }
     public required string Title { get; init; }
     public string? Description { get; init; }
-    public required CategoryDto Category { get; init; }
+    public required CategoryResponse Category { get; init; }
 }

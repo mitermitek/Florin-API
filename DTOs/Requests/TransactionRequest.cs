@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Florin_API.Enums;
 
-namespace Florin_API.DTOs.Transaction;
+namespace Florin_API.DTOs.Requests;
 
-public record TransactionRequestDto
+public record TransactionRequest
 {
     [Required]
     public required int CategoryId { get; init; }

@@ -1,39 +1,40 @@
 using Florin_API.Common;
-using Florin_API.DTOs.Category;
+using Florin_API.DTOs.Requests;
+using Florin_API.DTOs.Responses;
 using Florin_API.Entities;
 
 namespace Florin_API.Mappers;
 
 public static class CategoryMapper
 {
-    public static Category ToEntity(this CategoryRequestDto dto)
+    public static Category ToEntity(this CategoryRequest request)
     {
         return new Category
         {
-            Name = dto.Name
+            Name = request.Name
         };
     }
 
-    public static CategoryDto ToDto(this Category entity)
+    public static CategoryResponse ToResponse(this Category entity)
     {
-        return new CategoryDto
+        return new CategoryResponse
         {
             Id = entity.Id,
             Name = entity.Name
         };
     }
 
-    public static Pagination<CategoryDto> ToDto(this Pagination<Category> pagination)
+    public static Pagination<CategoryResponse> ToResponse(this Pagination<Category> pagination)
     {
-        return new Pagination<CategoryDto>
+        return new Pagination<CategoryResponse>
         {
-            Items = pagination.Items.ToDtos(),
+            Items = pagination.Items.ToResponses(),
             Total = pagination.Total
         };
     }
 
-    public static ICollection<CategoryDto> ToDtos(this ICollection<Category> entities)
+    public static ICollection<CategoryResponse> ToResponses(this ICollection<Category> entities)
     {
-        return [.. entities.Select(e => e.ToDto())];
+        return [.. entities.Select(e => e.ToResponse())];
     }
 }

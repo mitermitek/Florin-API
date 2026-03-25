@@ -1,23 +1,24 @@
 using Florin_API.Common;
-using Florin_API.DTOs.Account;
+using Florin_API.DTOs.Requests;
+using Florin_API.DTOs.Responses;
 using Florin_API.Entities;
 
 namespace Florin_API.Mappers;
 
 public static class AccountMapper
 {
-    public static Account ToEntity(this AccountRequestDto dto)
+    public static Account ToEntity(this AccountRequest request)
     {
         return new Account
         {
-            Name = dto.Name,
-            StartingBalance = dto.StartingBalance
+            Name = request.Name,
+            StartingBalance = request.StartingBalance
         };
     }
 
-    public static AccountDto ToDto(this Account entity)
+    public static AccountResponse ToResponse(this Account entity)
     {
-        return new AccountDto
+        return new AccountResponse
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -25,17 +26,17 @@ public static class AccountMapper
         };
     }
 
-    public static Pagination<AccountDto> ToDto(this Pagination<Account> pagination)
+    public static Pagination<AccountResponse> ToResponse(this Pagination<Account> pagination)
     {
-        return new Pagination<AccountDto>
+        return new Pagination<AccountResponse>
         {
-            Items = pagination.Items.ToDtos(),
+            Items = pagination.Items.ToResponses(),
             Total = pagination.Total
         };
     }
 
-    public static ICollection<AccountDto> ToDtos(this ICollection<Account> entities)
+    public static ICollection<AccountResponse> ToResponses(this ICollection<Account> entities)
     {
-        return [.. entities.Select(e => e.ToDto())];
+        return [.. entities.Select(e => e.ToResponse())];
     }
 }
